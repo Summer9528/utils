@@ -1,26 +1,14 @@
 'use strict'
-import babel from 'rollup-plugin-babel'
+import {babel} from '@rollup/plugin-babel'
+import alias from '@rollup/plugin-alias'
+import path from 'path'
 
 export const builds = {
-    'cjs': {
-        entry: "src/index.js",
-        output: name => `dist/${name}.js`,
-        format: "cjs",
-        plugins: [
-            babel({
-                exclude: ['node_modules/**']
-            })
-        ]
-    },
     "esm": {
         entry: "src/index.js",
         output: name => `dist/${name}.js`,
         format: "esm",
-        plugins: [
-            babel({
-                exclude: ['node_modules/**']
-            })
-        ]
+        plugins: []
     }
 }
 const getConfig = (name) => {
@@ -33,7 +21,19 @@ const getConfig = (name) => {
             format: opts.format,
             name: opts.name || 'utils'
         },
-        plugins: [].concat((opts.plugins || []))
+        plugins: [
+            alias({
+                entries: [
+                    {find: '@', replacement: path.resolve('src')}
+                ]
+            })
+        ]
+            .concat((opts.plugins || []))
+            .concat([
+                babel({
+                    exclude: ['node_modules/**']
+                })
+            ])
     }
     return config
 }

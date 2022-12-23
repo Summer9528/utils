@@ -1,11 +1,11 @@
 {
-  "name": "@summer111/utils",
+  "name": "utils",
   "version": "1.0.0",
   "description": "工具包",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "rollup --config rollup.config.js",
+    "build": "rollup -c rollup.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,7 +16,7 @@
     "工具包",
     "utils"
   ],
-  "author": "summer111",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Summer9528/utils/issues"
@@ -25,7 +25,9 @@
   "devDependencies": {
     "@babel/core": "^7.20.5",
     "@babel/preset-env": "^7.20.2",
-    "rollup": "^3.7.5",
-    "rollup-plugin-babel": "^4.4.0"
-  }
+    "@rollup/plugin-alias": "^4.0.2",
+    "@rollup/plugin-babel": "^6.0.3",
+    "rollup": "^3.7.5"
+  },
+  "dependencies": {}
 }
