@@ -5,8 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "rollup -c rollup.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c rollup.config.js && npm run copy",
+    "copy": "cp package.json README.md dist",
+    "prepare": "husky install",
+    "lint": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -14,7 +16,9 @@
   },
   "keywords": [
     "工具包",
-    "utils"
+    "utils",
+    "rollup",
+    "toolkit"
   ],
   "author": "",
   "license": "ISC",
@@ -27,7 +31,16 @@
     "@babel/preset-env": "^7.20.2",
     "@rollup/plugin-alias": "^4.0.2",
     "@rollup/plugin-babel": "^6.0.3",
-    "rollup": "^3.7.5"
+    "commander": "^9.4.1",
+    "eslint": "^8.30.0",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
+    "rollup": "^3.7.5",
+    "shelljs": "^0.8.5"
   },
-  "dependencies": {}
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint --fix"
+    ]
+  }
 }
