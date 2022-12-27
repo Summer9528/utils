@@ -10,8 +10,8 @@ module.exports = {
     },
     extends: ["eslint:recommended"],
     rules: {
-        "no-console": "warn",
-        "no-unused-vars": "off",
-        "no-console": "off"
+        // "no-console": "warn",
+        // "no-unused-vars": "off",
+        // "no-console": "off"
     }
 }

@@ -6,9 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "rollup -c rollup.config.js && npm run copy",
-    "copy": "cp package.json README.md dist",
-    "prepare": "husky install",
-    "lint": "lint-staged"
+    "copy": "cp package.json README.md dist"
   },
   "repository": {
     "type": "git",
@@ -33,14 +31,7 @@
     "@rollup/plugin-babel": "^6.0.3",
     "commander": "^9.4.1",
     "eslint": "^8.30.0",
-    "husky": "^8.0.2",
-    "lint-staged": "^13.1.0",
     "rollup": "^3.7.5",
     "shelljs": "^0.8.5"
-  },
-  "lint-staged": {
-    "src/**/*.js": [
-      "eslint --fix"
-    ]
   }
 }
