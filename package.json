@@ -38,11 +38,13 @@
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.2",
     "lint-staged": "^13.1.0",
+    "prettier": "2.8.1",
     "rollup": "^3.7.5",
     "shelljs": "^0.8.5"
   },
   "lint-staged": {
     "src/**/*.js": [
+      "prettier --write --ignore-unknown",
       "eslint --fix"
     ]
   }
