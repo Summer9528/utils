@@ -1,5 +1,5 @@
 'use strict'
-import {babel} from '@rollup/plugin-babel'
+import { babel } from '@rollup/plugin-babel'
 import alias from '@rollup/plugin-alias'
 import path from 'path'
 
@@ -24,7 +24,7 @@ const getConfig = (name) => {
         plugins: [
             alias({
                 entries: [
-                    {find: '@', replacement: path.resolve('src')}
+                    { find: '@', replacement: path.resolve('src') }
                 ]
             })
         ]

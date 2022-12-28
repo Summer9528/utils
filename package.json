@@ -7,8 +7,7 @@
   "scripts": {
     "build": "rollup -c rollup.config.js && npm run copy",
     "copy": "cp package.json README.md dist",
-    "prepare": "husky install",
-    "lint": "npx eslint src --fix"
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -38,7 +37,13 @@
     "eslint-plugin-n": "^15.6.0",
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
     "rollup": "^3.7.5",
     "shelljs": "^0.8.5"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint --fix"
+    ]
   }
 }
