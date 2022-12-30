@@ -7,7 +7,8 @@
   "scripts": {
     "build": "rollup -c rollup.config.js && npm run copy",
     "copy": "cp package.json README.md dist",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "@babel/preset-env": "^7.20.2",
     "@rollup/plugin-alias": "^4.0.2",
     "@rollup/plugin-babel": "^6.0.3",
+    "babel-jest": "^29.3.1",
     "commander": "^9.4.1",
     "eslint": "^8.30.0",
     "eslint-config-standard": "^17.0.0",
@@ -37,6 +39,8 @@
     "eslint-plugin-n": "^15.6.0",
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.2",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
     "lint-staged": "^13.1.0",
     "prettier": "2.8.1",
     "rollup": "^3.7.5",
