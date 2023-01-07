@@ -1,3 +1,4 @@
+'use strict'
 // 值类型、基本类型
 export const PRIMITIVE_VALUES = [
   'Null',
