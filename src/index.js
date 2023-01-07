@@ -1,6 +1,5 @@
 'use strict'
-import { cloneDeep } from '@/modules/object.js'
-
+import * as clone from '@/modules/clone.js'
 export default {
-  cloneDeep
+  ...clone
 }

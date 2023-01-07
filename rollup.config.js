@@ -9,6 +9,12 @@ export const builds = {
     output: name => `dist/${name}.js`,
     format: 'esm',
     plugins: []
+  },
+  cjs: {
+    entry: 'src/index.js',
+    output: name => `dist/${name}.js`,
+    format: 'cjs',
+    plugins: []
   }
 }
 const getConfig = (name) => {
