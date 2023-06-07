@@ -1,46 +1,33 @@
 'use strict'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { babel } from '@rollup/plugin-babel'
 import alias from '@rollup/plugin-alias'
-import path from 'path'
-
-export const builds = {
-  esm: {
-    entry: 'src/index.js',
-    output: name => `dist/${name}.js`,
-    format: 'esm',
-    plugins: []
-  },
-  cjs: {
-    entry: 'src/index.js',
-    output: name => `dist/${name}.js`,
-    format: 'cjs',
-    plugins: []
-  }
-}
-const getConfig = (name) => {
-  const opts = builds[name]
-  const config = {
-    input: opts.entry,
-    external: opts.external || [],
-    output: {
-      file: opts.output(`bundle-${name}`),
-      format: opts.format,
-      name: opts.name || 'utils'
-    },
+import path from 'node:path'
+import commonjs from '@rollup/plugin-commonjs'
+import { readFileSync } from 'node:fs'
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)).toString())
+export default [
+  {
+    input: 'src/index.js',
+    output: [
+      {
+        file: pkg.module,
+        format: 'es'
+      },
+      {
+        file: pkg.main,
+        format: 'cjs'
+      }
+    ],
     plugins: [
       alias({
         entries: [
           { find: '@', replacement: path.resolve('src') }
         ]
-      })
+      }),
+      nodeResolve(),
+      commonjs(),
+      babel()
     ]
-      .concat((opts.plugins || []))
-      .concat([
-        babel({
-          exclude: ['node_modules/**']
-        })
-      ])
   }
-  return config
-}
-export default Object.keys(builds).map(getConfig)
+]
