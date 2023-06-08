@@ -10,7 +10,7 @@ interface CalendarConfig {
   year: boolean,
   month: boolean
 }
-export class Calendar {
+export default class Calendar {
   instance: Date
   dates: DateInterface[]
   config: CalendarConfig

@@ -1,5 +1,5 @@
 'use strict'
-export { clone, cloneShallow } from '@/modules/clone.js'
-export { getType } from '@/modules/type.js'
-export { getElement, formatTree } from '@/modules/tree.js'
-export { Calendar } from '@/calendar/index.ts'
+import Calendar from '@/calendar'
+export default {
+  Calendar
+}
