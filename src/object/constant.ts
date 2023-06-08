@@ -13,7 +13,7 @@ export enum DataType {
   'Undefined' = 'Undefined',// primitive value
 }
 // 值类型、基本类型
-export const PRIMITIVE_VALUES = [
+export const PRIMITIVE_VALUES: string[] = [
   'Null',
   'Undefined',
   'Boolean',
@@ -23,4 +23,4 @@ export const PRIMITIVE_VALUES = [
   'Symbol'
 ]
 // 引用数据类型、对象类型
-export const OBJECT_VALUES = []
+export const OBJECT_VALUES: string[] = []

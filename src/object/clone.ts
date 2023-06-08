@@ -10,30 +10,17 @@ export const cloneDeep = <T>(data: T): T => {
     return Symbol((data as Symbol).description) as T
   }
   const dataType = getType(data)
-  if (PRIMITIVE_VALUES.includes(dataType)) {
-    return data
-  }
   let res = {}
   if (dataType === 'Array') {
     res = []
   }
-  // const keys: (keyof data as object)[] = Object.keys(data as object)
-  // keys.forEach(key => {
-  //   const ele = data[key]
-  //   const eleType = getType(ele)
-  //   if (!PRIMITIVE_VALUES.includes(eleType)) {
-  //     res[key] = clone(ele, true)
-  //   } else {
-  //     res[key] = ele
-  //   }
-  // })
   for (const key in data as object) {
-    const ele = data[key] as any
-    const eleType = getType(ele)
-    if (!PRIMITIVE_VALUES.includes(eleType)) {
-      res[key] = clone(ele, true)
+    const el = data[key]
+    const elType = getType(el)
+    if (!PRIMITIVE_VALUES.includes(elType)) {
+      res[key] = cloneDeep(el)
     } else {
-      res[key] = ele
+      res[key] = el
     }
   }
   return res
