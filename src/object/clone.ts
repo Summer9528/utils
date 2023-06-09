@@ -2,41 +2,41 @@
 import { getType } from './type'
 import { PRIMITIVE_VALUES } from './constant'
 
-export const cloneDeep = <T>(data: T): T => {
-  if (typeof data !== 'object' || typeof data === null) {
-    return data
+export const cloneDeep = <T>(clonedObject: T): T => {
+  const clonedObjectType: string = getType(clonedObject)
+  if (typeof clonedObject !== 'object' || typeof clonedObject === null) {
+    return clonedObject
   }
-  if (typeof data === 'symbol') {
-    return Symbol((data as Symbol).description) as T
+  if (clonedObjectType === 'Symbol') {
+    return Symbol((clonedObject as Symbol).description) as T
   }
-  const dataType = getType(data)
-  let res = {}
-  if (dataType === 'Array') {
-    res = []
+  if (clonedObjectType === 'Array') {
+    let result: any[] = [];
+    (clonedObject as any[]).forEach(item => {
+      result.push(cloneDeep(item as any))
+    })
+    return result as T
   }
-  for (const key in data as object) {
-    const el = data[key]
+  if (clonedObjectType === 'Object') {
+    let result: object = {}
+    for (const key in clonedObject) {
+      if (Object.prototype.hasOwnProperty.call(clonedObject, key)) {
+        const element = clonedObject[key]
+        result[key] = element
+      }
+    }
+
+  }
+  for (const key in clonedObject as object) {
+    const el = clonedObject[key]
     const elType = getType(el)
     if (!PRIMITIVE_VALUES.includes(elType)) {
-      res[key] = cloneDeep(el)
+      clonedObject[key] = cloneDeep(el)
     } else {
-      res[key] = el
+      clonedObject[key] = el
     }
   }
   return res
 
 }
-export const cloneShallow = (data) => {
-  const dataType = getType(data)
-  if (PRIMITIVE_VALUES.includes(dataType)) {
-    return data
-  }
-  let res = {}
-  if (dataType === 'Array') {
-    res = []
-  }
-  for (const key in data) {
-    res[key] = data[key]
-  }
-  return res
-}
+

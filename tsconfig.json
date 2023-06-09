@@ -17,6 +17,6 @@
     "strict": true,
     "resolveJsonModule": true,
     "declaration": true,
-    // "strictNullChecks": true
+    "strictNullChecks": true
   }
 }

@@ -10,7 +10,7 @@ import { defineConfig } from 'rollup'
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)).toString())
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const c = defineConfig({
-  input: 'src/index.js',
+  input: 'src/index.ts',
   output: [
     {
       file: pkg.module,
@@ -23,7 +23,9 @@ const c = defineConfig({
   ],
   plugins: [
     nodeResolve(),
-    typescript(),
+    typescript({
+      tsconfig: path.resolve(__dirname, './tsconfig.json')
+    }),
     alias({
       entries: [
         { find: '@', replacement: path.resolve(__dirname, 'src') }
