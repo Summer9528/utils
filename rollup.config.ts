@@ -6,33 +6,58 @@ import commonjs from '@rollup/plugin-commonjs'
 import { readFileSync } from 'node:fs'
 import typescript from '@rollup/plugin-typescript'
 import { fileURLToPath } from 'node:url'
-import { defineConfig } from 'rollup'
+import { defineConfig, RollupOptions } from 'rollup'
+import dts from 'rollup-plugin-dts'
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)).toString())
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
-const c = defineConfig({
-  input: 'src/index.ts',
+function resolve(p, dirname = __dirname) {
+  return path.resolve(dirname, p)
+}
+function getConfig(moduleName: string): RollupOptions {
+  return defineConfig({
+    input: resolve(`src/${moduleName}/index.ts`),
+    output: [
+      {
+        file: resolve('dist/es/index.js'),
+        format: 'es'
+      },
+      {
+        file: resolve('dist/cjs/index.js'),
+        format: 'cjs'
+      }
+    ],
+    plugins: [
+      nodeResolve(),
+      typescript({
+        tsconfig: resolve('./tsconfig.json')
+      }),
+      alias({
+        entries: [
+          { find: '@', replacement: resolve('src') }
+        ]
+      }),
+      commonjs(),
+    ],
+    external: []
+  })
+}
+const classesConfig = getConfig('classes')
+const objectConfig = getConfig('object')
+const dtsConfig = defineConfig({
+  input: resolve('src/index.ts'),
   output: [
     {
-      file: pkg.module,
-      format: 'es'
-    },
-    {
-      file: pkg.main,
-      format: 'cjs'
+      file: resolve('dist/index.d.ts'),
+      format: 'es',
     }
   ],
   plugins: [
-    nodeResolve(),
-    typescript({
-      tsconfig: path.resolve(__dirname, './tsconfig.json')
-    }),
     alias({
       entries: [
-        { find: '@', replacement: path.resolve(__dirname, 'src') }
+        { find: '@', replacement: resolve('src') }
       ]
     }),
-    commonjs(),
-  ],
-  external: []
+    dts()
+  ]
 })
-export default [c]
+export default [classesConfig, objectConfig]

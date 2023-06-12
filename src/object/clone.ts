@@ -1,42 +1,48 @@
 'use strict'
 import { getType } from './type'
 import { PRIMITIVE_VALUES } from './constant'
-
-export const cloneDeep = <T>(clonedObject: T): T => {
-  const clonedObjectType: string = getType(clonedObject)
-  if (typeof clonedObject !== 'object' || typeof clonedObject === null) {
-    return clonedObject
+export function isType<T>(target: T): void { }
+export function cloneDeep<T>(target: T): T {
+  const clonedObjectType: string = getType(target)
+  if (typeof target !== 'object' || typeof target === null) {
+    return target
   }
   if (clonedObjectType === 'Symbol') {
-    return Symbol((clonedObject as Symbol).description) as T
+    return Symbol((target as Symbol).description) as T
   }
   if (clonedObjectType === 'Array') {
-    let result: any[] = [];
-    (clonedObject as any[]).forEach(item => {
-      result.push(cloneDeep(item as any))
+    type ST = typeof target
+    let result: ST[] = [];
+    (target as ST[]).forEach(item => {
+      result.push(cloneDeep(item))
     })
     return result as T
   }
   if (clonedObjectType === 'Object') {
-    let result: object = {}
-    for (const key in clonedObject) {
-      if (Object.prototype.hasOwnProperty.call(clonedObject, key)) {
-        const element = clonedObject[key]
-        result[key] = element
+    let result = {}
+    for (const key in target) {
+      if (Object.prototype.hasOwnProperty.call(target, key)) {
+        // TODO: need to solve this problem in future
+        //@ts-ignore
+        result[key] = target[key]
       }
     }
 
   }
-  for (const key in clonedObject as object) {
-    const el = clonedObject[key]
-    const elType = getType(el)
-    if (!PRIMITIVE_VALUES.includes(elType)) {
-      clonedObject[key] = cloneDeep(el)
-    } else {
-      clonedObject[key] = el
-    }
-  }
-  return res
-
+  return target
 }
-
+export function clone<T>(target: T): T {
+  const dataType = getType(target)
+  if (PRIMITIVE_VALUES.includes(dataType)) {
+    return target
+  }
+  let res = {}
+  if (dataType === 'Array') {
+    res = []
+  }
+  for (const key in target) {
+    //@ts-ignore
+    res[key] = target[key]
+  }
+  return res as T
+}

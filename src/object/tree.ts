@@ -18,26 +18,23 @@ export function getElementById(id: string | number, treeData: Item[] = []): Item
     }
     return null
   }
-}
-export function isValidKey(key: string | number | symbol, obj: object): key is keyof typeof obj {
-  return key in obj
-}
-function getProp<T extends object, K extends keyof T>(obj: T, key: K): T[K] {
-  return obj[key]
+  return null
 }
 export function formatTree(tree = [], fieldConfig: object = {}) {
   const newTree = []
   for (let i = 0; i < tree.length; i++) {
     const item = tree[i]
     const obj = {}
-    Object.keys(fieldConfig).forEach((oldProp) => {
-      const newProp = fieldConfig[oldProp]
-      if (fieldConfig.hasOwnProperty(oldProp)) {
-        if (getType(item[oldProp]) === 'Array') {
-          obj[newProp] = formatTree(item[oldProp], fieldConfig)
+    for (const key in fieldConfig) {
+      if (Object.prototype.hasOwnProperty.call(fieldConfig, key)) {
+        // @ts-ignore
+        const newKey = fieldConfig[key];
+        if (getType(item[key]) === 'Array') {
+          // @ts-ignore
+          obj[newKey] = formatTree(item[key], fieldConfig)
         }
       }
-    })
+    }
     newTree[i] = obj
   }
   return newTree

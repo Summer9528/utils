@@ -1,13 +1,19 @@
 {
   "include": [
-    "rollup.config.ts",
     "src/**/*.ts"
   ],
   "exclude": [
     "scripts/**/*",
-    "test/**/*"
+    "test/**/*",
+    "rollup.config.ts"
   ],
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
     "target": "ES2020",
     "module": "ESNext",
     "moduleResolution": "node",
