@@ -10,19 +10,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Summer9528/toolkit.git"
+    "url": "git+https://github.com/Summer9528/utils.git"
   },
   "keywords": [
     "utils",
     "rollup",
-    "toolkit"
+    "tool"
   ],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Summer9528/toolkit/issues"
+    "url": "https://github.com/Summer9528/utils/issues"
   },
-  "homepage": "https://github.com/Summer9528/toolkit/#readme",
+  "homepage": "https://github.com/Summer9528/utils/#readme",
   "devDependencies": {
     "@rollup/plugin-alias": "^4.0.4",
     "@rollup/plugin-commonjs": "^25.0.0",
