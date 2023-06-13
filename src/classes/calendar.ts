@@ -1,21 +1,29 @@
-interface DateInterface {
+type DateType = {
   date: number,//在所属月份的第几天
   day: number,//一周中的第几天 
   year: number,
-  month: number
+  month: number,
 }
-interface CalendarConfig {
+type CalendarConfig = {
   date: boolean,
   day: boolean,
   year: boolean,
   month: boolean
 }
+// TODO: to know how it works ?
+type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] extends N
+  ? Acc[number]
+  : Enumerate<N, [...Acc, Acc['length']]>
+
+type IntRange<F extends number, T extends number> = Exclude<Enumerate<T>, Enumerate<F>>
+type MonthRange = IntRange<1, 12>
+
 export default class Calendar {
-  instance: Date
-  dates: DateInterface[]
-  config: CalendarConfig
-  currentYear: number
-  currentMonth: number
+  private instance: Date
+  private dates: DateType[]
+  private config: CalendarConfig
+  private currentYear: number
+  private currentMonth: number
   constructor(instance: Date = new Date(), config: CalendarConfig = {
     date: true,
     day: true,
@@ -24,12 +32,12 @@ export default class Calendar {
   }) {
     this.config = config
     this.instance = instance
-    this.currentYear = this.getYear()
-    this.currentMonth = this.getMonth()
-    this.dates = []
-    this.setDates(this.currentYear, this.currentMonth)
+    this.currentMonth = this.instance.getMonth() + 1
+    this.currentYear = this.instance.getFullYear()
+    this.dates = this.setDates(this.currentMonth, this.currentMonth)
   }
-  setDates(year: number, month: number): DateInterface[] {
+  private setDates(year: number, month: number): DateType[] {
+    this.dates = []
     const len = this.getMonthSize(year, month)
     for (let i = 0; i < len; i++) {
       this.dates.push({
@@ -41,56 +49,49 @@ export default class Calendar {
     }
     return this.dates
   }
-  public prevMonth(): DateInterface[] {
+  public getDates(): DateType[] {
+    return this.dates
+  }
+  public prevMonth(): DateType[] {
     if (this.currentMonth === 1) {
       this.currentYear--
       this.currentMonth = 12
     } else {
       this.currentMonth--
     }
-    return this.setDates(this.currentYear, this.currentMonth)
-
+    this.instance = new Date(this.currentYear, this.currentMonth)
+    this.dates = this.setDates(this.currentYear, this.currentMonth)
+    return this.dates
   }
-  public nextMonth(): DateInterface[] {
+  public nextMonth(): DateType[] {
     if (this.currentMonth === 12) {
       this.currentMonth = 1
       this.currentYear + 1
     } else {
       this.currentMonth++
     }
-    return this.setDates(this.currentYear, this.currentMonth)
+    this.instance = new Date(this.currentYear, this.currentMonth)
+    this.dates = this.setDates(this.currentYear, this.currentMonth)
+    return this.dates
   }
-  public prevYear(): DateInterface[] {
+  public prevYear(): DateType[] {
     this.currentYear--
-    return this.setDates(this.currentYear, this.currentMonth)
+    this.instance = new Date(this.currentYear, this.currentMonth)
+    this.dates = this.setDates(this.currentYear, this.currentMonth)
+    return this.dates
   }
-  public nextYear(): DateInterface[] {
+  public nextYear(): DateType[] {
     this.currentYear++
-    return this.setDates(this.currentYear, this.currentMonth)
+    this.instance = new Date(this.currentYear, this.currentMonth)
+    this.dates = this.setDates(this.currentYear, this.currentMonth)
+    return this.dates
   }
-  /**
-   * @description: 月份天数
-   * @param {number} year
-   * @param {number} month
-   * @return {*}
-   */
-  getMonthSize(year: number, month: number): number {
+  private getMonthSize(year: number, month: number): number {
     return new Date(year, month, 0).getDate()
   }
-  /**
-   * @description: 一周的第几天 1-7
-   * @return {*}
-   */
-  public getDay(year: number, month: number, date: number): number {
+  private getDay(year: number, month: number, date: number): number {
     return new Date(year, month - 1, date).getDay() + 1
   }
-  public getYear(): number {
-    return this.instance.getFullYear()
-  }
-  protected getMonth(): number {
-    return this.instance.getMonth() + 1
-  }
-
 }
 
 

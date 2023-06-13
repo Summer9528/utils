@@ -1,11 +1,11 @@
 {
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "rollup.config.ts"
   ],
   "exclude": [
     "scripts/**/*",
     "test/**/*",
-    "rollup.config.ts"
   ],
   "compilerOptions": {
     "baseUrl": "./",
@@ -22,7 +22,7 @@
     "esModuleInterop": true,
     "strict": true,
     "resolveJsonModule": true,
-    "declaration": true,
+    "declaration": false,
     "strictNullChecks": true
   }
 }

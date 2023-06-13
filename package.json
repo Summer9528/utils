@@ -4,8 +4,8 @@
   "description": "toolkit",
   "type": "module",
   "scripts": {
-    "build": "rimraf dist && npm run build-bundle",
-    "build-bundle": "rollup -c rollup.config.ts --configPlugin typescript",
+    "dev": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript -w",
+    "build": "rimraf dist && rollup -c rollup.config.ts --configPlugin typescript",
     "prepare": "husky install"
   },
   "repository": {
