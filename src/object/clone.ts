@@ -1,9 +1,13 @@
 'use strict'
+// TODO:need to continue to improve
 import { getType } from './type'
 import { PRIMITIVE_VALUES } from './constant'
 export function isType<T>(target: T): void { }
 export function cloneDeep<T>(target: T): T {
+
   const clonedObjectType: string = getType(target)
+  console.log('target', clonedObjectType, target);
+
   if (typeof target !== 'object' || typeof target === null) {
     return target
   }
@@ -24,10 +28,10 @@ export function cloneDeep<T>(target: T): T {
       if (Object.prototype.hasOwnProperty.call(target, key)) {
         // TODO: need to solve this problem in future
         //@ts-ignore
-        result[key] = target[key]
+        result[key] = cloneDeep(target[key])
       }
     }
-
+    return result as T
   }
   return target
 }
