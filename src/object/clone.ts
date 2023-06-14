@@ -1,36 +1,31 @@
 'use strict'
-// TODO:need to continue to improve
-import { getType } from './type'
+// TODO:需要继续完善
+import { getType, isPrimitiveValue, isValidKey, isArray, isSymbol, isObject } from './type'
 import { PRIMITIVE_VALUES } from './constant'
-export function isType<T>(target: T): void { }
-export function cloneDeep<T>(target: T): T {
-
-  const clonedObjectType: string = getType(target)
-  console.log('target', clonedObjectType, target);
-
-  if (typeof target !== 'object' || typeof target === null) {
+export function cloneDeep<T>(target: T, cache = new WeakMap()): T {
+  // 基础类型：Symbol
+  if (isSymbol(target)) {
+    return Symbol(target.description) as T
+  }
+  // 基础类型：String,Number,Boolean,Null,Undefined
+  if (isPrimitiveValue(target)) {
     return target
   }
-  if (clonedObjectType === 'Symbol') {
-    return Symbol((target as Symbol).description) as T
+  // 引用类型
+  if (isObject(target)) {
+    let result = {}
+    Reflect.ownKeys(target).forEach(key => {
+      if (isValidKey(key, target)) {
+        result[key] = target[key]
+      }
+    })
   }
-  if (clonedObjectType === 'Array') {
+  if (isArray(target)) {
     type ST = typeof target
     let result: ST[] = [];
-    (target as ST[]).forEach(item => {
+    target.forEach(item => {
       result.push(cloneDeep(item))
     })
-    return result as T
-  }
-  if (clonedObjectType === 'Object') {
-    let result = {}
-    for (const key in target) {
-      if (Object.prototype.hasOwnProperty.call(target, key)) {
-        // TODO: need to solve this problem in future
-        //@ts-ignore
-        result[key] = cloneDeep(target[key])
-      }
-    }
     return result as T
   }
   return target

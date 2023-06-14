@@ -1,4 +1,6 @@
 import { cloneDeep } from "./clone";
+import { getType } from './type'
 export {
-    cloneDeep
+    cloneDeep,
+    getType
 }
